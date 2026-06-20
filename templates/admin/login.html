@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - BagStore</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FFFFFF;
+            --bg-soft: #F9FAFB;
+            --dark: #111827;
+            --text: #1F2937;
+            --text-2: #6B7280;
+            --text-3: #9CA3AF;
+            --accent: #10B981;
+            --accent-dark: #059669;
+            --accent-bg: #ECFDF5;
+            --border: #E5E7EB;
+            --border-focus: #10B981;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-soft);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            padding: 7px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-2);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--bg-soft);
+        }
+
+        .nav-login {
+            background: var(--dark) !important;
+            color: #fff !important;
+            padding: 7px 18px !important;
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            border-radius: var(--radius-sm) !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-login:hover {
+            background: #1F2937 !important;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.4rem;
+            padding: 4px;
+        }
+
+        /* === MAIN === */
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px 80px;
+        }
+
+        /* === LOGIN CARD === */
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+        }
+
+        @keyframes cardIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--accent-bg);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            color: var(--accent-dark);
+            font-size: 1.4rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+
+        .login-header p {
+            font-size: 0.88rem;
+            color: var(--text-3);
+        }
+
+        /* === FORM === */
+        .login-form {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 7px;
+        }
+
+        .field .input-wrap {
+            position: relative;
+        }
+
+        .field .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-3);
+            font-size: 1.05rem;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 11px 14px 11px 42px;
+            font-size: 0.88rem;
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .field input::placeholder {
+            color: var(--text-3);
+        }
+
+        .field input:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .field input:focus+.input-icon,
+        .field input:focus~.input-icon {
+            color: var(--accent);
+        }
+
+        .toggle-pw {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-3);
+            font-size: 1.15rem;
+            padding: 2px;
+            transition: color 0.2s;
+        }
+
+        .toggle-pw:hover {
+            color: var(--text-2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px 24px;
+            margin-top: 6px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: var(--font);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* === ERROR === */
+        .error-msg {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #B91C1C;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            animation: shake 0.4s ease;
+        }
+
+        .error-msg .iconify {
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-6px);
+            }
+
+            40% {
+                transform: translateX(6px);
+            }
+
+            60% {
+                transform: translateX(-4px);
+            }
+
+            80% {
+                transform: translateX(4px);
+            }
+        }
+
+        /* === BACK LINK === */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 24px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-3);
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 24px;
+            text-align: center;
+            background: var(--bg);
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            color: var(--text-3);
+        }
+
+        .footer a {
+            color: var(--text-2);
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        /* === MOBILE === */
+        .nav-links.open {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: #fff;
+                border-bottom: 1px solid var(--border);
+                padding: 12px 24px 16px;
+                gap: 4px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 10px 14px;
+            }
+
+            .nav-login {
+                width: 100%;
+                justify-content: center;
+                margin-top: 4px;
+            }
+
+            .main {
+                padding: 32px 20px 60px;
+            }
+
+            .login-form {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">
+                    <span class="iconify" data-icon="mdi:bag-personal"></span>
+                </span>
+                BagStore
+            </a>
+
+            <button class="menu-btn" id="menuBtn" aria-label="Menu">
+                <span class="iconify" data-icon="mdi:menu" id="menuIcon"></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Beranda</a></li>
+                <li><a href="/products">Produk</a></li>
+                <li>
+                    <a href="/admin/login" class="nav-login active">
+                        <span class="iconify" data-icon="mdi:shield-lock-outline"></span>
+                        Admin
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="login-card">
+
+            <div class="login-header">
+                <div class="login-icon">
+                    <span class="iconify" data-icon="mdi:shield-lock-outline"></span>
+                </div>
+                <h1>Login Admin</h1>
+                <p>Masuk ke dashboard BagStore</p>
+            </div>
+
+            <div class="login-form">
+
+                {% if error %}
+                <div class="error-msg">
+                    <span class="iconify" data-icon="mdi:alert-circle-outline"></span>
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST">
+
+                    <div class="field">
+                        <label>Username</label>
+                        <div class="input-wrap">
+                            <input type="text" name="username" placeholder="Masukkan username" required>
+                            <span class="iconify input-icon" data-icon="mdi:account-outline"></span>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="input-wrap">
+                            <input type="password" name="password" id="pwInput" placeholder="Masukkan password"
+                                required>
+                            <span class="iconify input-icon" data-icon="mdi:lock-outline"></span>
+                            <button type="button" class="toggle-pw" id="togglePw" aria-label="Tampilkan password">
+                                <span class="iconify" data-icon="mdi:eye-off-outline" id="pwIcon"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span class="iconify" data-icon="mdi:login"></span>
+                        Masuk
+                    </button>
+
+                </form>
+
+            </div>
+
+            <a href="/" class="back-link">
+                <span class="iconify" data-icon="mdi:arrow-left" style="font-size:0.9rem"></span>
+                Kembali ke Beranda
+            </a>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 <a href="/">BagStore</a> — Toko Tas Modern</p>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+
+        menuBtn.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            menuIcon.setAttribute('data-icon', open ? 'mdi:close' : 'mdi:menu');
+        });
+
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                menuIcon.setAttribute('data-icon', 'mdi:menu');
+            });
+        });
+
+        // Toggle password visibility
+        const togglePw = document.getElementById('togglePw');
+        const pwInput = document.getElementById('pwInput');
+        const pwIcon = document.getElementById('pwIcon');
+
+        togglePw.addEventListener('click', () => {
+            const show = pwInput.type === 'password';
+            pwInput.type = show ? 'text' : 'password';
+            pwIcon.setAttribute('data-icon', show ? 'mdi:eye-outline' : 'mdi:eye-off-outline');
+        });
+    </script>
+
+</body>
+
+</html>

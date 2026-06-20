@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BagStore - Toko Tas Modern</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FFFFFF;
+            --bg-soft: #F9FAFB;
+            --dark: #111827;
+            --text: #1F2937;
+            --text-2: #6B7280;
+            --text-3: #9CA3AF;
+            --accent: #10B981;
+            --accent-dark: #059669;
+            --accent-bg: #ECFDF5;
+            --border: #E5E7EB;
+            --radius: 12px;
+            --font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            padding: 7px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-2);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text);
+            background: var(--bg-soft);
+        }
+
+        .nav-login {
+            background: var(--dark) !important;
+            color: #fff !important;
+            padding: 7px 18px !important;
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-login:hover {
+            background: #1F2937 !important;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.4rem;
+            padding: 4px;
+        }
+
+        /* === HERO === */
+        .hero {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 80px 24px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--accent-dark);
+        }
+
+        .hero>div:first-child>p {
+            color: var(--text-2);
+            font-size: 1rem;
+            margin-bottom: 32px;
+            max-width: 420px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .btn-fill {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-fill:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-ghost {
+            background: var(--bg-soft);
+            color: var(--text);
+            border: 1px solid var(--border);
+            margin-left: 10px;
+        }
+
+        .btn-ghost:hover {
+            background: var(--border);
+        }
+
+        .hero-img {
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero-img img {
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .hero-img:hover img {
+            transform: scale(1.04);
+        }
+
+        /* === PRODUCTS === */
+        .products {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .products-head {
+            margin-bottom: 36px;
+        }
+
+        .products-head h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .products-head h2 span {
+            color: var(--text-3);
+            font-weight: 400;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card-link {
+            display: block;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: var(--bg);
+        }
+
+        .card:hover {
+            border-color: transparent;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .card-img {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            background: var(--bg-soft);
+        }
+
+        .card-img img {
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.06);
+        }
+
+        .card-body {
+            padding: 16px 18px 18px;
+        }
+
+        .card-body h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-body>p {
+            font-size: 0.8rem;
+            color: var(--text-3);
+            margin-bottom: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .detail-btn {
+            padding: 7px 16px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .detail-btn:hover {
+            background: #374151;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            color: var(--text-3);
+        }
+
+        .footer a {
+            color: var(--text-2);
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        /* === SCROLL REVEAL === */
+        .fade {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === MOBILE MENU === */
+        .nav-links.open {
+            display: flex;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: #fff;
+                border-bottom: 1px solid var(--border);
+                padding: 12px 24px 16px;
+                gap: 4px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 10px 14px;
+            }
+
+            .nav-login {
+                width: 100%;
+                justify-content: center;
+                margin-top: 4px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 48px 24px 48px;
+                gap: 36px;
+                text-align: center;
+            }
+
+            .hero>div:first-child>p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero .btns {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-ghost {
+                margin-left: 0;
+            }
+
+            .hero-img {
+                max-width: 320px;
+                margin: 0 auto;
+                aspect-ratio: 3/4;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+
+            .card-body {
+                padding: 12px 14px 14px;
+            }
+
+            .card-body h3 {
+                font-size: 0.85rem;
+            }
+
+            .card-body>p {
+                display: none;
+            }
+
+            .price {
+                font-size: 0.9rem;
+            }
+
+            .detail-btn {
+                padding: 6px 12px;
+                font-size: 0.72rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-body>p {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">
+                    <span class="iconify" data-icon="mdi:bag-personal"></span>
+                </span>
+                BagStore
+            </a>
+
+            <button class="menu-btn" id="menuBtn" aria-label="Menu">
+                <span class="iconify" data-icon="mdi:menu" id="menuIcon"></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" class="active">Beranda</a></li>
+                <li><a href="/products">Produk</a></li>
+                <li>
+                    <a href="/admin/login" class="nav-login">
+                        <span class="iconify" data-icon="mdi:shield-lock-outline"></span>
+                        Admin
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div>
+            <h1>Tampil Stylish dengan <em>Tas Terbaik</em></h1>
+            <p>Temukan koleksi tas wanita, pria, ransel, tote bag, dan sling bag dengan desain modern.</p>
+            <div class="btns" style="display:flex;flex-wrap:wrap">
+                <a class="btn btn-fill" href="/products">
+                    Belanja Sekarang
+                    <span class="iconify" data-icon="mdi:arrow-right"></span>
+                </a>
+                <a class="btn btn-ghost" href="/products">Lihat Koleksi</a>
+            </div>
+        </div>
+        <div class="hero-img">
+            <img src="https://i.pinimg.com/736x/1e/2a/01/1e2a01d3949971080335380d6a2970af.jpg" alt="Koleksi Tas">
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products">
+        <div class="products-head fade">
+            <h2>Produk Terbaru <span>({{ products|length }} item)</span></h2>
+        </div>
+
+        <div class="grid">
+
+            {% for p in products %}
+
+            <a href="/product/{{ p['id'] }}" class="card-link fade">
+                <div class="card">
+                    <div class="card-img">
+                        {% if p['gambar'] and p['gambar'].lower().startswith('http') %}
+                            <img src="{{ p['gambar'] }}" alt="{{ p['nama'] }}" loading="lazy">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/' ~ p['gambar']) }}" alt="{{ p['nama'] }}" loading="lazy">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h3>{{ p['nama'] }}</h3>
+                        <p>{{ p['deskripsi'][:60] }}...</p>
+                        <div class="card-row">
+                            <span class="price">Rp {{ "{:,.0f}".format(p['harga']) }}</span>
+                            <button class="detail-btn">Detail →</button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 <a href="/">BagStore</a> — Toko Tas Modern</p>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+
+        menuBtn.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            menuIcon.setAttribute('data-icon', open ? 'mdi:close' : 'mdi:menu');
+        });
+
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                menuIcon.setAttribute('data-icon', 'mdi:menu');
+            });
+        });
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('show'), i * 60);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.nama }} - BagStore</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FFFFFF;
+            --bg-soft: #F9FAFB;
+            --dark: #111827;
+            --text: #1F2937;
+            --text-2: #6B7280;
+            --text-3: #9CA3AF;
+            --accent: #10B981;
+            --accent-dark: #059669;
+            --accent-bg: #ECFDF5;
+            --border: #E5E7EB;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --font: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-soft);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            padding: 7px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-2);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--bg-soft);
+        }
+
+        .nav-login {
+            background: var(--dark) !important;
+            color: #fff !important;
+            padding: 7px 18px !important;
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            border-radius: var(--radius-sm) !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-login:hover {
+            background: #1F2937 !important;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.4rem;
+            padding: 4px;
+        }
+
+        /* === BREADCRUMB === */
+        .breadcrumb-bar {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 24px 24px 0;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-3);
+        }
+
+        .breadcrumb a {
+            color: var(--text-3);
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumb .sep {
+            font-size: 0.7rem;
+        }
+
+        .breadcrumb .current {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* === DETAIL LAYOUT === */
+        .detail-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 24px 24px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        /* === IMAGE === */
+        .detail-image {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: sticky;
+            top: 88px;
+        }
+
+        .detail-image img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .detail-image:hover img {
+            transform: scale(1.03);
+        }
+
+        /* === INFO === */
+        .detail-info {
+            padding-top: 8px;
+        }
+
+        .detail-category {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-dark);
+            background: var(--accent-bg);
+            padding: 5px 14px;
+            border-radius: 9999px;
+            margin-bottom: 16px;
+        }
+
+        .detail-info h1 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .detail-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .detail-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 24px;
+        }
+
+        .detail-desc-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-3);
+            margin-bottom: 10px;
+        }
+
+        .detail-desc {
+            font-size: 0.92rem;
+            color: var(--text-2);
+            line-height: 1.75;
+            margin-bottom: 32px;
+        }
+
+        /* === QTY + ACTION === */
+        .action-section {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .qty-label {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .qty-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .qty-wrap {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-soft);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .qty-btn:hover {
+            background: var(--border);
+        }
+
+        .qty-input {
+            width: 56px;
+            height: 42px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: var(--font);
+            border: none;
+            border-left: 1.5px solid var(--border);
+            border-right: 1.5px solid var(--border);
+            outline: none;
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .subtotal {
+            font-size: 0.88rem;
+            color: var(--text-2);
+        }
+
+        .subtotal strong {
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: var(--font);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+        }
+
+        .checkout-btn:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .checkout-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-3);
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        /* === FEATURES ROW === */
+        .features-row {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .feature-chip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            transition: border-color 0.2s;
+        }
+
+        .feature-chip:hover {
+            border-color: var(--accent);
+        }
+
+        .feature-chip-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            background: var(--accent-bg);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+        }
+
+        .feature-chip-text h4 {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .feature-chip-text p {
+            font-size: 0.75rem;
+            color: var(--text-3);
+        }
+
+        /* === FOOTER === */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 24px;
+            text-align: center;
+            background: var(--bg);
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            color: var(--text-3);
+        }
+
+        .footer a {
+            color: var(--text-2);
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        /* === SCROLL REVEAL === */
+        .fade {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === MOBILE === */
+        .nav-links.open {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: #fff;
+                border-bottom: 1px solid var(--border);
+                padding: 12px 24px 16px;
+                gap: 4px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 10px 14px;
+            }
+
+            .nav-login {
+                width: 100%;
+                justify-content: center;
+                margin-top: 4px;
+            }
+
+            .breadcrumb-bar {
+                padding: 20px 20px 0;
+            }
+
+            .detail-wrap {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 20px 20px 48px;
+            }
+
+            .detail-image {
+                position: static;
+            }
+
+            .detail-image img {
+                aspect-ratio: 4 / 3;
+            }
+
+            .detail-info {
+                padding-top: 0;
+            }
+
+            .detail-price {
+                font-size: 1.35rem;
+            }
+
+            .features-row {
+                grid-template-columns: 1fr;
+                padding: 0 20px 48px;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">
+                    <span class="iconify" data-icon="mdi:bag-personal"></span>
+                </span>
+                BagStore
+            </a>
+
+            <button class="menu-btn" id="menuBtn" aria-label="Menu">
+                <span class="iconify" data-icon="mdi:menu" id="menuIcon"></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Beranda</a></li>
+                <li><a href="/products">Produk</a></li>
+                <li>
+                    <a href="/admin/login" class="nav-login">
+                        <span class="iconify" data-icon="mdi:shield-lock-outline"></span>
+                        Admin
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb">
+            <a href="/">Beranda</a>
+            <span class="sep">›</span>
+            <a href="/products">Produk</a>
+            <span class="sep">›</span>
+            <span class="current">{{ product.nama }}</span>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL -->
+    <div class="detail-wrap">
+
+        <!-- IMAGE -->
+        <div class="detail-image fade">
+            {% if product.gambar and product.gambar.lower().startswith('http') %}
+                <img src="{{ product.gambar }}" alt="{{ product.nama }}">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/' ~ product.gambar) }}" alt="{{ product.nama }}">
+            {% endif %}
+        </div>
+
+        <!-- INFO -->
+        <div class="detail-info fade" style="transition-delay:0.1s">
+
+            <span class="detail-category">Tas Premium</span>
+
+            <h1>{{ product.nama }}</h1>
+
+            <div class="detail-price">
+                Rp {{ "{:,.0f}".format(product.harga) }}
+            </div>
+
+            <div class="detail-divider"></div>
+
+            <div class="detail-desc-label">Deskripsi Produk</div>
+
+            <p class="detail-desc">{{ product.deskripsi }}</p>
+
+            <!-- ACTION -->
+            <div class="action-section">
+                <form action="/checkout/{{ product.id }}" method="GET" id="detailForm">
+                    <div class="qty-label">Jumlah</div>
+                    <div class="qty-row">
+                        <div class="qty-wrap">
+                            <button type="button" class="qty-btn" id="qtyMin">−</button>
+                            <input type="number" name="qty" class="qty-input" id="qtyInput" value="1" min="1">
+                            <button type="button" class="qty-btn" id="qtyPlus">+</button>
+                        </div>
+                        <div class="subtotal">
+                            Subtotal: <strong id="subtotalText">Rp {{ "{:,.0f}".format(product.harga) }}</strong>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="checkout-btn">
+                        <span class="iconify" data-icon="mdi:cart-outline"></span>
+                        Checkout Sekarang
+                    </button>
+                </form>
+
+                <a href="/products" class="back-link">
+                    <span class="iconify" data-icon="mdi:arrow-left" style="font-size:0.9rem"></span>
+                    Kembali ke daftar produk
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features-row">
+        <div class="feature-chip fade">
+            <div class="feature-chip-icon">
+                <span class="iconify" data-icon="mdi:truck-delivery-outline"></span>
+            </div>
+            <div class="feature-chip-text">
+                <h4>Gratis Ongkir</h4>
+                <p>Min. belanja Rp 200.000</p>
+            </div>
+        </div>
+        <div class="feature-chip fade" style="transition-delay:0.08s">
+            <div class="feature-chip-icon">
+                <span class="iconify" data-icon="mdi:shield-check-outline"></span>
+            </div>
+            <div class="feature-chip-text">
+                <h4>Garansi Original</h4>
+                <p>100% produk autentik</p>
+            </div>
+        </div>
+        <div class="feature-chip fade" style="transition-delay:0.16s">
+            <div class="feature-chip-icon">
+                <span class="iconify" data-icon="mdi:refresh"></span>
+            </div>
+            <div class="feature-chip-text">
+                <h4>Easy Return</h4>
+                <p>Pengembalian 7 hari</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 <a href="/">BagStore</a> — Toko Tas Modern</p>
+    </footer>
+
+    <span id="productPrice" data-price={{ product.harga | tojson }} style="display:none"></span>
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+
+        menuBtn.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            menuIcon.setAttribute('data-icon', open ? 'mdi:close' : 'mdi:menu');
+        });
+
+        navLinks.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                menuIcon.setAttribute('data-icon', 'mdi:menu');
+            });
+        });
+
+        // Quantity + subtotal
+        const qtyInput = document.getElementById('qtyInput');
+        const qtyMin = document.getElementById('qtyMin');
+        const qtyPlus = document.getElementById('qtyPlus');
+        const subtotalText = document.getElementById('subtotalText');
+        const unitPrice = Number(document.getElementById('productPrice').dataset.price);
+
+        function updateSubtotal() {
+            const qty = Math.max(1, parseInt(qtyInput.value) || 1);
+            qtyInput.value = qty;
+            subtotalText.textContent = 'Rp ' + (qty * unitPrice).toLocaleString('id-ID');
+        }
+
+        qtyMin.addEventListener('click', () => {
+            if (parseInt(qtyInput.value) > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+                updateSubtotal();
+            }
+        });
+
+        qtyPlus.addEventListener('click', () => {
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+            updateSubtotal();
+        });
+
+        qtyInput.addEventListener('input', updateSubtotal);
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('show');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+
+</html>
